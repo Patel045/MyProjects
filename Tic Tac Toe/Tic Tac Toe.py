@@ -22,6 +22,7 @@ def game():
         game()
     Button(f2,text="Restart",font="aerial 20",command=restart).grid(row=0,column=0)
     Button(f2,text="Quit",font="aerial 20",command=root.destroy).grid(row=0,column=1)
+    ButtonStates=["active" for i in range(9)]
     def mylabel():
         global count
         if(count%2==0):     #even
@@ -33,6 +34,7 @@ def game():
     def press(n):
         global count
         l[n-1]=mylabel()
+        ButtonStates[n-1]="disabled"
         body()
         if (count%2==1):
             lx.append(n-1)
@@ -55,23 +57,23 @@ def game():
             if(counter0==3):
                 Label(f2,text="O win",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
     def body():
-        b11=Button(f1,text=l[0],width=w,height=h,fg="red",command=lambda : press(1))
+        b11=Button(f1,text=l[0],width=w,height=h,command=lambda : press(1),state=ButtonStates[0],disabledforeground="red")
         b11.grid(row=1,column=1)
-        b12=Button(f1,text=l[1],width=w,height=h,fg="red",command=lambda : press(2))
+        b12=Button(f1,text=l[1],width=w,height=h,command=lambda : press(2),state=ButtonStates[1],disabledforeground="red")
         b12.grid(row=1,column=2)
-        b13=Button(f1,text=l[2],width=w,height=h,fg="red",command=lambda : press(3))
+        b13=Button(f1,text=l[2],width=w,height=h,command=lambda : press(3),state=ButtonStates[2],disabledforeground="red")
         b13.grid(row=1,column=3)
-        b21=Button(f1,text=l[3],width=w,height=h,fg="red",command=lambda : press(4))
+        b21=Button(f1,text=l[3],width=w,height=h,command=lambda : press(4),state=ButtonStates[3],disabledforeground="red")
         b21.grid(row=2,column=1)
-        b22=Button(f1,text=l[4],width=w,height=h,fg="red",command=lambda : press(5))
+        b22=Button(f1,text=l[4],width=w,height=h,command=lambda : press(5),state=ButtonStates[4],disabledforeground="red")
         b22.grid(row=2,column=2)
-        b23=Button(f1,text=l[5],width=w,height=h,fg="red",command=lambda : press(6))
+        b23=Button(f1,text=l[5],width=w,height=h,command=lambda : press(6),state=ButtonStates[5],disabledforeground="red")
         b23.grid(row=2,column=3)
-        b31=Button(f1,text=l[6],width=w,height=h,fg="red",command=lambda : press(7))
+        b31=Button(f1,text=l[6],width=w,height=h,command=lambda : press(7),state=ButtonStates[6],disabledforeground="red")
         b31.grid(row=3,column=1)
-        b32=Button(f1,text=l[7],width=w,height=h,fg="red",command=lambda : press(8))
+        b32=Button(f1,text=l[7],width=w,height=h,command=lambda : press(8),state=ButtonStates[7],disabledforeground="red")
         b32.grid(row=3,column=2)
-        b33=Button(f1,text=l[8],width=w,height=h,fg="red",command=lambda : press(9))
+        b33=Button(f1,text=l[8],width=w,height=h,command=lambda : press(9),state=ButtonStates[8],disabledforeground="red")
         b33.grid(row=3,column=3)
     body()
     root.mainloop()
