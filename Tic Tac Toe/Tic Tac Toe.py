@@ -2,19 +2,20 @@ from tkinter import *
 count=0
 board=["","","","","","","","",""]
 
-def evaluator(lx,lo):
+def evaluator():
+    global board
     t=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]]
     for elem in t:
         counter0=0
-        for integer in lx:
-            if(integer in elem):
+        for integer in elem:
+            if(board[integer]=="X"):
                 counter0+=1
         if(counter0==3):
             return "X"
     for elem in t:
         counter0=0
-        for integer in lo:
-            if(integer in elem):
+        for integer in elem:
+            if(board[integer]=="O"):
                 counter0+=1
         if(counter0==3):
             return "O"
@@ -30,8 +31,6 @@ def MultiPlayerGame():
     Label(f1,text="TIC TAC TOE",font="comics 20",pady=10).grid(row=0,column=1,columnspan=3)
     f2=Frame(root)
     f2.pack()
-    x,o="X","O"
-    lx,lo=[],[]
     w,h=10,5
     count=0
     def restart():
@@ -45,20 +44,16 @@ def MultiPlayerGame():
     ButtonStates=["active" for i in range(9)]
     def press(n):
         global count,board
-        board[n-1]=x if count%2==0 else o
+        board[n-1]="X" if count%2==0 else "O"
         count+=1
         ButtonStates[n-1]="disabled"
         if (count%2==1):
-            lx.append(n-1)
             displaylabel=Label(f2,text="2nd Player's Turn",pady=5,font="aerial 20")
             displaylabel.grid(row=1,column=0,columnspan=2)
         elif(count%2==0):
-            lo.append(n-1)
             displaylabel=Label(f2,text="1st Player's Turn",pady=5,font="aerial 20")
             displaylabel.grid(row=1,column=0,columnspan=2)
-        lx.sort()
-        lo.sort()
-        checker=evaluator(lx,lo)
+        checker=evaluator()
         if(checker!=NONE):
             Label(f2,text=f"           {checker} win         ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
             for i in range(9):
