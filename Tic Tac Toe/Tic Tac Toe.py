@@ -1,7 +1,27 @@
 from tkinter import *
 count=0
+board=["","","","","","","","",""]
+
+def evaluator(lx,lo):
+    t=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]]
+    for elem in t:
+        counter0=0
+        for integer in lx:
+            if(integer in elem):
+                counter0+=1
+        if(counter0==3):
+            return "X"
+    for elem in t:
+        counter0=0
+        for integer in lo:
+            if(integer in elem):
+                counter0+=1
+        if(counter0==3):
+            return "O"
+    return NONE
+
 def MultiPlayerGame():
-    global count
+    global count,board
     root=Tk()
     root.geometry("300x430+210+160")
     root.title("Tic Tac Toe")
@@ -11,31 +31,23 @@ def MultiPlayerGame():
     f2=Frame(root)
     f2.pack()
     x,o="X","O"
-    board=["","","","","","","","",""]
-    lx=[]
-    lo=[]
+    lx,lo=[],[]
     w,h=10,5
     count=0
-    t=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]]
     def restart():
+        global count,board
         root.destroy()
+        board=["","","","","","","","",""]
+        count=0
         MultiPlayerGame()
     Button(f2,text="Restart",font="aerial 20",command=restart).grid(row=0,column=0,sticky="nsew")
     Button(f2,text="Quit",font="aerial 20",command=root.destroy).grid(row=0,column=1,sticky="nsew")
     ButtonStates=["active" for i in range(9)]
-    def mylabel():
-        global count
-        if(count%2==0):     #even
-            label=x
-        if(count%2==1):      #odd
-            label=o
-        count=count+1
-        return label
     def press(n):
-        global count
-        board[n-1]=mylabel()
+        global count,board
+        board[n-1]=x if count%2==0 else o
+        count+=1
         ButtonStates[n-1]="disabled"
-        # displaylabel.destroy()
         if (count%2==1):
             lx.append(n-1)
             displaylabel=Label(f2,text="2nd Player's Turn",pady=5,font="aerial 20")
@@ -46,24 +58,11 @@ def MultiPlayerGame():
             displaylabel.grid(row=1,column=0,columnspan=2)
         lx.sort()
         lo.sort()
-        for elem in t:
-            counter0=0
-            for integer in lx:
-                if(integer in elem):
-                    counter0+=1
-            if(counter0==3):
-                Label(f2,text="           X win         ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
-                for i in range(9):
-                    ButtonStates[i]="disable" 
-        for elem in t:
-            counter0=0
-            for integer in lo:
-                if(integer in elem):
-                    counter0+=1
-            if(counter0==3):
-                Label(f2,text="           O win          ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
-                for i in range(9):
-                    ButtonStates[i]="disable" 
+        checker=evaluator(lx,lo)
+        if(checker!=NONE):
+            Label(f2,text=f"           {checker} win         ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
+            for i in range(9):
+                ButtonStates[i]="disable" 
         body()
         
     def body():
@@ -85,7 +84,7 @@ def MultiPlayerGame():
         b32.grid(row=3,column=2)
         b33=Button(f1,text=board[8],width=w,height=h,command=lambda : press(9),state=ButtonStates[8],disabledforeground="red")
         b33.grid(row=3,column=3)
-    
+
     displaylabel=Label(f2,text="1st Player's Turn",pady=5,font="aerial 20")
     displaylabel.grid(row=1,column=0,columnspan=2)
     body()
