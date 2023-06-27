@@ -2,7 +2,7 @@ from tkinter import *
 count=0
 board=["","","","","","","","",""]
 
-def evaluator():
+def Evaluator():
     global board
     t=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]]
     for elem in t:
@@ -53,7 +53,7 @@ def MultiPlayerGame():
         elif(count%2==0):
             displaylabel=Label(f2,text="1st Player's Turn",pady=5,font="aerial 20")
             displaylabel.grid(row=1,column=0,columnspan=2)
-        checker=evaluator()
+        checker=Evaluator()
         if(checker!=NONE):
             Label(f2,text=f"           {checker} win         ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
             for i in range(9):
