@@ -54,10 +54,24 @@ def MultiPlayerGame():
             displaylabel=Label(f2,text="1st Player's Turn",pady=5,font="aerial 20")
             displaylabel.grid(row=1,column=0,columnspan=2)
         checker=Evaluator()
-        if(checker!=NONE):
+        cnt=0
+        for val in board:
+            if(val!=""):
+                cnt+=1
+        if(cnt==9 and checker==NONE):
+            checker="Draw"
+        if(checker!=NONE and checker!="Draw"):
             Label(f2,text=f"           {checker} win         ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
             for i in range(9):
                 ButtonStates[i]="disable" 
+            body()
+            return
+        if(checker=="Draw"):
+            Label(f2,text=f"            {checker}            ",pady=5,font="aerial 20").grid(row=1,column=0,columnspan=2)
+            for i in range(9):
+                ButtonStates[i]="disable" 
+            body()
+            return    
         body()
         
     def body():
