@@ -21,7 +21,7 @@ def Evaluator():
             return "O"
     return NONE
 
-def MinMax(is_max):
+def MinMax(is_max,alpha,beta):
     global board
     checker=Evaluator()
     if(checker!=NONE):
@@ -33,19 +33,29 @@ def MinMax(is_max):
     if(cnt==9):
         return 0
     if(is_max):
-        curval=-1
+        curval=-10
         for i in range(9):
             if(board[i]==""):
                 board[i]="O"
-                curval=max(curval,MinMax(False))
+                curval=max(curval,MinMax(False,alpha,beta))
+                alpha=max(curval,alpha)
                 board[i]=""
+                # if(curval==1):
+                #     return 1
+                if(alpha>=beta):
+                    break
     else:
-        curval=1
+        curval=10
         for i in range(9):
             if(board[i]==""):
                 board[i]="X"
-                curval=min(curval,MinMax(True))
+                curval=min(curval,MinMax(True,alpha,beta))
                 board[i]=""
+                beta=min(beta,curval)
+                # if(curval==-1):
+                #     return -1
+                if(alpha>=beta):
+                    break
     return curval
 
 def BestMove():
@@ -54,7 +64,7 @@ def BestMove():
     for i in range(9):
         if(board[i]==""):
             board[i]="O"
-            score=MinMax(False)
+            score=MinMax(False,alpha=-10,beta=10)
             board[i]=""
             if(score>curval):
                 curval=score
